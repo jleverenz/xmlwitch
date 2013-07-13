@@ -112,5 +112,39 @@ class XMLWitchTestCase(unittest.TestCase):
             self.expected_document('atom_feed.xml')
         )
 
+    def test_empty_node_call_as_with_doesnt_double_render(self):
+        # __call__ and __enter__ previously produced two renders:
+        #   <div />                     <--- __call__ invoked
+        #   <div> <img ...> </div>      <--- __enter__ invoked
+        #
+        # __call__ and __enter__ should work together.
+
+        xml = xmlwitch.Builder()
+        with xml.div(None):
+            xml.img(None, src="http://server/image.jpg")
+        self.assertEquals(
+            str(xml),
+            self.expected_document('empty_node.xml')
+        )
+
+    def test_empty_node(self):
+        # Old "None" style
+        xml = xmlwitch.Builder()
+        with xml.div:
+            xml.img(None, src="http://server/image.jpg")
+        self.assertEquals(
+            str(xml),
+            self.expected_document('empty_node.xml')
+        )
+
+        # New empty style
+        xml = xmlwitch.Builder()
+        with xml.div:
+            xml.img(src="http://server/image.jpg")
+        self.assertEquals(
+            str(xml),
+            self.expected_document('empty_node.xml')
+        )
+
 if __name__ == '__main__':
     unittest.main()
