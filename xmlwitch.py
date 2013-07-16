@@ -94,7 +94,7 @@ class XmlTreeBuilder:
                         text = "<%s%s>%s</%s>" % (tree[0], tree[1], tree[2], tree[0])
                         builder.write_indented( text )
                     else:
-                        builder.write_indented( "<%s%s>%s", (tree[0], tree[1], tree[2]) )
+                        builder.write_indented( "<%s%s>%s" % (tree[0], tree[1], tree[2]) )
                         builder._indentation += 1
                         self.render_subtree(tree[3], builder)
                         builder._indentation += -1

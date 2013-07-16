@@ -127,6 +127,15 @@ class XMLWitchTestCase(unittest.TestCase):
             self.expected_document('empty_node.xml')
         )
 
+    def test_content_with_child(self):
+        xml = xmlwitch.Builder()
+        with xml.div("Content"):
+            xml.img(src="http://server/image.jpg")
+        self.assertEquals(
+            str(xml),
+            self.expected_document('content_with_child.xml')
+        )
+
     def test_empty_node(self):
         # Old "None" style
         xml = xmlwitch.Builder()
